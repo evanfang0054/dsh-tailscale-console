@@ -159,14 +159,13 @@ function trustedHostsOf(ctx) {
 
 ### 5. Install this plugin
 
-> ⚠️ This package is **not published to npm yet** — use the local `file:` reference below. (`pnpm add dsh-tailscale-console` will fail with "Couldn't find package" until it is published.)
+> Installed from npm: [dsh-tailscale-console](https://www.npmjs.com/package/dsh-tailscale-console). For local development (editing this repo in place), use the `file:` reference instead.
 
 ```bash
 cd ~/.dsh/profiles/web
 # Node 20.x + pnpm >= 9 required (lockfile v9). Verified: Node 20.19.2 + pnpm 10.27.0.
-# 1) put the package source under packages/dsh-tailscale-console/ (clone / copy this repo)
-# 2) add the file: dependency
-pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"
+pnpm add dsh-tailscale-console
+# 本地开发：pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"
 ```
 
 Append to `cordis.patch.yml`:
