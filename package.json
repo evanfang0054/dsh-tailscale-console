@@ -30,5 +30,13 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evanfang0054/dsh-tailscale-console.git"
+  },
+  "homepage": "https://github.com/evanfang0054/dsh-tailscale-console#readme",
+  "bugs": {
+    "url": "https://github.com/evanfang0054/dsh-tailscale-console/issues"
+  }
 }
