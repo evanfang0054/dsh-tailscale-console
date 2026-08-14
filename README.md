@@ -4,6 +4,12 @@ A control panel for the [DeepSeek Harness](https://github.com/deepseek-ai/dsh) w
 
 UI language: Chinese. Docs: [English](README.md) · [中文](README.zh-CN.md)
 
+[![npm version](https://img.shields.io/npm/v/dsh-tailscale-console.svg?style=flat-square)](https://www.npmjs.com/package/dsh-tailscale-console)
+[![License](https://img.shields.io/npm/l/dsh-tailscale-console.svg?style=flat-square)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-blue.svg?style=flat-square)](package.json)
+[![Downloads](https://img.shields.io/npm/dm/dsh-tailscale-console.svg?style=flat-square)](https://www.npmjs.com/package/dsh-tailscale-console)
+[![dsh plugin](https://img.shields.io/badge/dsh%20plugin-ready-2ea44f.svg?style=flat-square)](https://github.com/topics/dsh-plugin)
+
 ---
 
 ## Features
