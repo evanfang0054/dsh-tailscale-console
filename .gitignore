@@ -3,3 +3,15 @@ node_modules/
 .DS_Store
 *.bak
 *.orig
+
+# 敏感文件防泄露
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+*tskey*
+npm_token*
