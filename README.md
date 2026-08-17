@@ -235,6 +235,27 @@ All values come from the plugin `Config`; the code contains **no personal identi
 | "On" button dead after HTTPS entry is off | chicken-and-egg: the HTTPS page itself is unreachable once serve is off (connection refused) | open the panel at `http://127.0.0.1:<port>` on the local machine and toggle on (remote page shows a hint) |
 | Settings/credentials page 403 remotely | dsh `PRIVILEGED_METHODS` design limit | operate locally; do not relax |
 | Phone access is slow | ACL grants not saved | see section 4 |
+| `tailscale ping` (TSMP) works, but real TCP/ICMP all time out | control-plane ACL lost the default allow rule (only custom rules like the Peer Relay grant remain); tailscaled logs show `Drop: ... no rules matched` | re-add the default rule at the top of `grants` (below) — propagates in ~30s, no restart |
+
+**Default ACL rule (new `grants` format — three requirements)**
+
+When configuring a Peer Relay, the default "allow all connections" rule is easily overwritten. Once lost, every real packet is dropped by the ACL filter with `no rules matched`, while TSMP ping keeps working (internal path, bypasses ACL) — the classic "ping works, data doesn't" illusion. Always keep the default rule first:
+
+```json
+{
+  "grants": [
+    { "src": ["*"], "dst": ["*"], "ip": ["*"] },
+    { "src": ["<device IP>"], "dst": ["<relay server IP>"],
+      "app": { "tailscale.com/cap/relay": [] } }
+  ]
+}
+```
+
+New `grants` requirements: `dst` takes no port; an explicit `ip` field is mandatory; `app` and `ip` cannot both be empty.
+
+Inspect commands:
+- Server: `journalctl -u tailscaled | grep "no rules matched"`
+- macOS: `log show --last 30m --predicate 'eventMessage CONTAINS "no rules matched"'`
 
 ## License
 

@@ -235,6 +235,27 @@ tailscale ping -c 3 <服务器tailnet IP>
 | HTTPS 入口关闭后「开启」按钮无效 | 鸡生蛋：入口关闭后 HTTPS 页面本身不可达（连接被拒） | 从本机 `http://127.0.0.1:<端口>` 打开面板重新开启（远程页面会显示引导提示） |
 | 远程打不开设置/凭据页（403） | dsh `PRIVILEGED_METHODS` 设计限制 | 本机操作，勿放宽 |
 | 手机访问很慢 | ACL grants 未保存 | 见第 4 节 |
+| `tailscale ping` 通（TSMP），但真实 TCP/ICMP 全部超时 | 控制平面 ACL 只剩 Peer Relay 授权等自定义规则、丢失默认 allow；tailscaled 日志出现 `Drop: ... no rules matched` | grants 数组开头加回默认规则（见下），约 30 秒自动下发，免重启 |
+
+**ACL 默认规则（新版 grants 格式三要素）**
+
+配置 Peer Relay 时，默认「允许全部连接」规则极易被覆盖丢——丢失后所有真实流量被 ACL 过滤器以 `no rules matched` 丢弃，而 TSMP ping 走内部通道不受影响，呈现「ping 通、数据不通」的假象。grants 数组应始终以默认规则开头：
+
+```json
+{
+  "grants": [
+    { "src": ["*"], "dst": ["*"], "ip": ["*"] },
+    { "src": ["<设备 IP>"], "dst": ["<中继服务器 IP>"],
+      "app": { "tailscale.com/cap/relay": [] } }
+  ]
+}
+```
+
+新版 grants 三要素：`dst` 不带端口；必须显式声明 `ip` 字段；`app` 与 `ip` 不能同时为空。
+
+排查命令：
+- 服务器：`journalctl -u tailscaled | grep "no rules matched"`
+- macOS：`log show --last 30m --predicate 'eventMessage CONTAINS "no rules matched"'`
 
 ## 许可证
 
