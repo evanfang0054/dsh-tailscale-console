@@ -165,26 +165,33 @@ function trustedHostsOf(ctx) {
 
 ### 5. 安装本插件
 
-> 已发布到 npm：[dsh-tailscale-console](https://www.npmjs.com/package/dsh-tailscale-console)。本地开发（直接改本仓库源码）时改用 `file:` 引用。
+包声明了 `dsh.bundle`，用 dsh 官方 CLI 安装会**自动挂载**到 profile 的 bundle 栈——一条命令搞定，无需改配置文件：
 
 ```bash
-cd ~/.dsh/profiles/web
-# 需要 Node 20.x + pnpm >= 9（lockfile v9）。已在 Node 20.19.2 + pnpm 10.27.0 验证。
-pnpm add dsh-tailscale-console
-# 本地开发：pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"
-```
+# npm 源（已发布）：自动写入 dsh.profile.bundles 并挂载
+dsh plugin --profile web add dsh-tailscale-console
 
-`cordis.patch.yml` 追加：
-
-```yaml
-- insert:
-    - id: tailscale-console
-      name: 'dsh-tailscale-console'
-      config:
-        sshAlias: my-server    # 可选：服务器端变更操作（安装/中继）用的 ssh 别名
+# 或直接从仓库安装（同样自动挂载——仓库根目录自带 cordis.patch.yml）
+dsh plugin --profile web add github:evanfang0054/dsh-tailscale-console
 ```
 
 重启 `dsh web` → 设置 → Tailscale 控制台。
+
+可选的每用户参数（如 `sshAlias`）属于本机特定配置，**不放进** bundle 补丁里。需要时在本机 profile 的 `cordis.patch.yml` 里按同名 entry id 覆盖：
+
+```bash
+cd ~/.dsh/profiles/web
+pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"   # 本地开发用 file: 引用
+```
+
+```yaml
+# 追加到 ~/.dsh/profiles/web/cordis.patch.yml（可选覆盖）
+- id: tailscale-console
+  config:
+    sshAlias: my-server    # 可选：服务器端变更操作（安装/中继）用的 ssh 别名
+```
+
+> ⚠️ 如果之前用「手动方式」（`cordis.patch.yml` 里的 `- insert:` 行）挂载过本插件，改用 `dsh plugin add` 的 bundle 通道前请先删掉那行 insert，否则会**双挂载**（两份宿主半身、两份面板）。
 
 ### 6. 验证清单
 

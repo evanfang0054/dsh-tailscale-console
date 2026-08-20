@@ -165,26 +165,33 @@ function trustedHostsOf(ctx) {
 
 ### 5. Install this plugin
 
-> Installed from npm: [dsh-tailscale-console](https://www.npmjs.com/package/dsh-tailscale-console). For local development (editing this repo in place), use the `file:` reference instead.
+The package declares `dsh.bundle`, so the official CLI installs **and auto-mounts** it into the profile's bundle stack — one command, no profile file edits:
 
 ```bash
-cd ~/.dsh/profiles/web
-# Node 20.x + pnpm >= 9 required (lockfile v9). Verified: Node 20.19.2 + pnpm 10.27.0.
-pnpm add dsh-tailscale-console
-# 本地开发：pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"
-```
+# npm source (published): auto-appends to dsh.profile.bundles + mounts
+dsh plugin --profile web add dsh-tailscale-console
 
-Append to `cordis.patch.yml`:
-
-```yaml
-- insert:
-    - id: tailscale-console
-      name: 'dsh-tailscale-console'
-      config:
-        sshAlias: my-server    # optional: ssh alias for server-side mutations (install/relay)
+# or install straight from the repo (also auto-mounts — the repo ships cordis.patch.yml at its root)
+dsh plugin --profile web add github:evanfang0054/dsh-tailscale-console
 ```
 
 Restart `dsh web` → Settings → Tailscale Console.
+
+Optional per-user options (like `sshAlias`) are machine-specific and are **not** part of the bundled patch. Override them from the profile's own `cordis.patch.yml` by targeting the same entry id:
+
+```bash
+cd ~/.dsh/profiles/web
+pnpm add "dsh-tailscale-console@file:./packages/dsh-tailscale-console"   # local dev: file: reference
+```
+
+```yaml
+# append to ~/.dsh/profiles/web/cordis.patch.yml (optional overrides)
+- id: tailscale-console
+  config:
+    sshAlias: my-server    # optional: ssh alias for server-side mutations (install/relay)
+```
+
+> ⚠️ If you previously mounted this plugin the manual way (an `- insert:` line in `cordis.patch.yml`), remove that line before switching to the `dsh plugin add` bundle channel — keeping both double-mounts the plugin (two host halves, two panels).
 
 ### 6. Verification checklist
 
