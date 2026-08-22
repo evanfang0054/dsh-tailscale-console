@@ -241,6 +241,7 @@ tailscale ping -c 3 <服务器tailnet IP>
 | HTTPS「开启」静默失败 | 沙箱掐掉 `serve --bg` 的后台派生 | 代码已修（显式策略 + 验证重试） |
 | HTTPS 入口关闭后「开启」按钮无效 | 鸡生蛋：入口关闭后 HTTPS 页面本身不可达（连接被拒） | 从本机 `http://127.0.0.1:<端口>` 打开面板重新开启（远程页面会显示引导提示） |
 | 远程打不开设置/凭据页（403） | dsh `PRIVILEGED_METHODS` 设计限制 | 本机操作，勿放宽 |
+| 健康检查「/api 会话列表」恒 ✗，detail 是响应中段碎片（如 `2144},"contextBreakdown"...`） | dsh shell 服务对超长 stdout 做**保留尾部**截断（约 63KB），`session.list` 响应体远超该值，经 curl 拿到的 stdout 被砍掉开头、JSON.parse 必然失败 | 已内置修复（0.2.3+）：Host 内用 `node:http` 直连本机 127.0.0.1 请求，绕开 shell |
 | 手机访问很慢 | ACL grants 未保存 | 见第 4 节 |
 | `tailscale ping` 通（TSMP），但真实 TCP/ICMP 全部超时 | 控制平面 ACL 只剩 Peer Relay 授权等自定义规则、丢失默认 allow；tailscaled 日志出现 `Drop: ... no rules matched` | grants 数组开头加回默认规则（见下），约 30 秒自动下发，免重启 |
 

@@ -241,6 +241,7 @@ All values come from the plugin `Config`; the code contains **no personal identi
 | HTTPS "on" fails silently | sandbox kills `serve --bg`'s daemon | fixed in code (explicit policy + verify/retry) |
 | "On" button dead after HTTPS entry is off | chicken-and-egg: the HTTPS page itself is unreachable once serve is off (connection refused) | open the panel at `http://127.0.0.1:<port>` on the local machine and toggle on (remote page shows a hint) |
 | Settings/credentials page 403 remotely | dsh `PRIVILEGED_METHODS` design limit | operate locally; do not relax |
+| Health check "/api session list" always ✗, detail shows a mid-body fragment (e.g. `2144},"contextBreakdown"...`) | dsh's shell service truncates long stdout **keeping only the tail** (~63KB cap); the `session.list` response far exceeds it, so curl-based stdout loses its head and `JSON.parse` always fails | fixed built-in (0.2.3+): Host requests `127.0.0.1` directly via `node:http`, bypassing the shell |
 | Phone access is slow | ACL grants not saved | see section 4 |
 | `tailscale ping` (TSMP) works, but real TCP/ICMP all time out | control-plane ACL lost the default allow rule (only custom rules like the Peer Relay grant remain); tailscaled logs show `Drop: ... no rules matched` | re-add the default rule at the top of `grants` (below) — propagates in ~30s, no restart |
 
