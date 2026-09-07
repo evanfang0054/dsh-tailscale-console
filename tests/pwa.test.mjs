@@ -9,7 +9,7 @@ test("enhancedManifest: 继承 dsh 字段且 standalone + PNG icons", () => {
   const m = enhancedManifest()
   assert.equal(m.name, "DeepSeek Harness")
   assert.equal(m.short_name, "DSH")
-  assert.equal(m.start_url, "/")
+  assert.equal(m.start_url, "/tsctl/auto-login")
   assert.equal(m.scope, "/")
   assert.equal(m.display, "standalone")
   assert.equal(m.theme_color, "#1f2430")
@@ -42,4 +42,8 @@ test("injectInstallBootstrap: 注入 SW 注册与安装捕获脚本", () => {
 test("injectInstallBootstrap: 重复注入不叠加（幂等）", () => {
   const once = injectInstallBootstrap(ORIG)
   assert.equal(injectInstallBootstrap(once), once)
+})
+
+test("enhancedManifest: start_url 指向自动登录路由（APP 打开即续登）", () => {
+  assert.equal(enhancedManifest().start_url, "/tsctl/auto-login")
 })
