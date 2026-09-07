@@ -1,7 +1,7 @@
 // PWA 资源增强单测
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { enhancedManifest, injectPwaHead } from "../lib/pwa.js"
+import { enhancedManifest, injectPwaHead, injectInstallBootstrap } from "../lib/pwa.js"
 
 const ORIG = '<!doctype html><html><head><meta charset="utf-8"/><link rel="manifest" href="./manifest.webmanifest"/><link rel="icon" href="./favicon.svg"/></head><body></body></html>'
 
@@ -30,4 +30,16 @@ test("injectPwaHead: 替换 manifest 链接并注入 apple-touch-icon", () => {
 test("injectPwaHead: 找不到 manifest link 时原样返回（兜底）", () => {
   const html = "<html><head></head></html>"
   assert.equal(injectPwaHead(html), html)
+})
+
+test("injectInstallBootstrap: 注入 SW 注册与安装捕获脚本", () => {
+  const out = injectInstallBootstrap(ORIG)
+  assert.match(out, /serviceWorker\.register\('\/tsctl\/sw\.js', \{ scope: '\/' \}\)/)
+  assert.match(out, /beforeinstallprompt/)
+  assert.match(out, /__dshPwaInstall/)
+  assert.match(out, /<\/head>/, "注入点在 head 内")
+})
+test("injectInstallBootstrap: 重复注入不叠加（幂等）", () => {
+  const once = injectInstallBootstrap(ORIG)
+  assert.equal(injectInstallBootstrap(once), once)
 })
