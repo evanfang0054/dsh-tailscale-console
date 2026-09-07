@@ -45,5 +45,8 @@
   },
   "scripts": {
     "test": "node --test"
+  },
+  "devDependencies": {
+    "jsqr": "^1.4.0"
   }
 }
