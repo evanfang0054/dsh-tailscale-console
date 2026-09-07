@@ -23,7 +23,7 @@ UI language: Chinese. Docs: [English](README.md) · [中文](README.zh-CN.md)
 | ⑤ Relay server | Tailnet status of your relay server + enable Peer Relay + ping verify |
 | ⑥ Access | Remote HTTPS URL, local URL, and the exact `dsh web` start command |
 | ⑦ ACL snippet | Generates the `tailscale.com/cap/relay` grants JSON from live device IPs |
-| ⑧ Device pairing | One-click login link for remote devices — no more digging the token URL out of the terminal after every `dsh web` restart |
+| ⑧ Device pairing | One-click login link/QR for remote devices — re-pair from a device bookmark after restarts, with Add-to-Home-Screen (PWA) |
 
 ---
 

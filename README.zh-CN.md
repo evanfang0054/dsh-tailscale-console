@@ -23,7 +23,7 @@
 | ⑤ 服务器 | 中继服务器 tailnet 状态 + 开启 Peer Relay + ping 验证 |
 | ⑥ 访问方式 | 远程 HTTPS 地址、本机地址、`dsh web` 启动命令 |
 | ⑦ ACL 片段 | 按当前设备 IP 自动生成 `tailscale.com/cap/relay` grants JSON |
-| ⑧ 设备配对 | 一键生成远程设备登录链接——重启 `dsh web` 后再也不用翻终端找 token URL |
+| ⑧ 设备配对 | 一键生成远程设备登录链接/二维码——重启后设备书签输码即可重登，支持添加到主屏幕（PWA） |
 
 ---
 
