@@ -1,6 +1,6 @@
 {
   "name": "dsh-tailscale-console",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "DeepSeek Harness 的 Tailscale 远程访问运营面板：健康检查、HTTPS 入口开关、macOS 代理绕过、中继服务器运维、ACL 片段生成。",
   "license": "MIT",
   "keywords": [
@@ -42,5 +42,8 @@
   "homepage": "https://github.com/evanfang0054/dsh-tailscale-console#readme",
   "bugs": {
     "url": "https://github.com/evanfang0054/dsh-tailscale-console/issues"
+  },
+  "scripts": {
+    "test": "node --test"
   }
 }

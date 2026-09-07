@@ -17,7 +17,7 @@ UI language: Chinese. Docs: [English](README.md) · [中文](README.zh-CN.md)
 | Card | Description |
 |---|---|
 | ① Devices & online alerts | Per-device online/offline state; auto-alerts when an offline device comes online |
-| ② Health check | One-click verification of HTTPS entry, page, `/api` session list, `/sidebar/api`, server direct path, proxy bypass |
+| ② Health check | One-click verification of HTTPS entry, page, `/api` session list, remote `/api` RPC over HTTPS, server direct path, proxy bypass |
 | ③ HTTPS entry | Tailscale Serve status / URL + on/off toggle (with verification & retry) |
 | ④ Proxy bypass | Checks `*.ts.net` / `100.64.0.0/10` in the macOS system proxy bypass list; one-click re-apply (macOS only) |
 | ⑤ Relay server | Tailnet status of your relay server + enable Peer Relay + ping verify |
