@@ -51,7 +51,7 @@ function decodeCookieLikeDsh(value, secretBytes) {
   return decoded
 }
 
-const AUTHORITY = "mac-mini.tailb1ffe6.ts.net"
+const AUTHORITY = "mac-mini.example.ts.net"
 // 32 字节密钥（与 dsh 的 SECRET_BYTES 一致），base64url 编码形态（credential 里存的形态）
 const SECRET_B64 = b64urlEncode(Buffer.alloc(32, 7))
 
