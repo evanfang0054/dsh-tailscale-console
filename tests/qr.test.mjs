@@ -31,7 +31,7 @@ function decode(text) {
 }
 
 test("解码回读: 常规配对链接原样解出", () => {
-  const s = "https://mac-mini.tailb1ffe6.ts.net/tsctl/pair?c=AB2C-9DEF"
+  const s = "https://mac-mini.example.ts.net/tsctl/pair?c=AB2C-9DEF"
   assert.equal(decode(s), s)
 })
 
@@ -39,12 +39,12 @@ test("解码回读: 短输入 / 长输入 / UTF-8 中文", () => {
   assert.equal(decode("A"), "A")
   const long = "https://very-long-host-name-for-testing.tailnet-example.ts.net/tsctl/pair?c=ZZZZ-9999&extra=1"
   assert.equal(decode(long), long)
-  const cn = "https://mac-mini.tailb1ffe6.ts.net/tsctl/pair?c=测试12码"
+  const cn = "https://mac-mini.example.ts.net/tsctl/pair?c=测试12码"
   assert.equal(decode(cn), cn)
 })
 
 test("qrSvg: 输出 svg 且含静区与模块路径", () => {
-  const svg = qrSvg("https://mac-mini.tailb1ffe6.ts.net/tsctl/pair?c=AB2C-9DEF")
+  const svg = qrSvg("https://mac-mini.example.ts.net/tsctl/pair?c=AB2C-9DEF")
   assert.match(svg, /^<svg /)
   assert.match(svg, /viewBox="-8 -8 \d+ \d+"/)
   assert.match(svg, /<path d="/)
