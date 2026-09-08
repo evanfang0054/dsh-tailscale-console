@@ -100,11 +100,11 @@ test("pairingCode: 形如 XXXX-XXXX，无易混字符（0/1/I/O），批量生�
   assert.equal(seen.size, 200)
 })
 
-test("配对存储: 有效期内单次兑换成功，重复兑换失败", () => {
+test("配对存储: 有效期内可重复兑换（多设备并配场景）", () => {
   const store = createPairingStore(10 * 60 * 1000)
   const { code } = store.issue(1000)
   assert.equal(store.redeem(code, 2000).ok, true)
-  assert.equal(store.redeem(code, 3000).ok, false, "同一码第二次兑换必须失败（单次使用）")
+  assert.equal(store.redeem(code, 3000).ok, true, "TTL 内重复打开链接必须仍然成功")
 })
 
 test("配对存储: 超过 TTL 兑换失败；未知码失败；大小写与分隔符归一化", () => {
