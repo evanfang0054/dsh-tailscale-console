@@ -35,3 +35,9 @@ test("配对成功页: 不含外部依赖与内联样式表外的资源", () => 
   assert.ok(!html.includes("http://"), "不应含 http 外链")
   assert.ok(!html.includes("https://"), "不应含 https 外链（self 引用用相对路径）")
 })
+
+test("配对成功页: standalone 已装 APP 打开时自动跳进控制台（顺带静默续期 cookie）", () => {
+  const html = renderPairSuccess({})
+  assert.match(html, /location\.replace\('\/'\)/)
+  assert.match(html, /display-mode: standalone/)
+})
