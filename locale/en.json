@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Tailscale Console",
+    "description": "Tailscale remote-access console for DSH: health checks, HTTPS entry, proxy bypass, relay ops and device pairing."
+  }
+}
